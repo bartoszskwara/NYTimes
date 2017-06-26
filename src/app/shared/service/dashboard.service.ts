@@ -10,7 +10,7 @@ export class DashboardService {
 
   apiKey: string = '8e53f61c822246fc92eff0afaafcc24c';
 
-  url: string = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=' + this.apiKey;
+  url: string = 'https://api.nytimes.com/svc/search/v2/articlesearch.json';//?api-key=' + this.apiKey;
 
   constructor(private http: Http) { }
 
@@ -24,12 +24,14 @@ export class DashboardService {
 
 // + '&begin_date=' + beginDate + '&end_date=' + endDate
 
-    
+
     var beginDate = this.convertToValidDateString(begin);
     var endDate = this.convertToValidDateString(end);
 
 
     let params: URLSearchParams = new URLSearchParams();
+    params.set('api-key', this.apiKey);
+    
     if(beginDate != null) {
       params.set('begin_date', beginDate);
     }
