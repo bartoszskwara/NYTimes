@@ -1,0 +1,22 @@
+<h1>Dashboard</h1>
+
+
+<label>Begin date:
+  <my-date-picker name="myBeginDate" [options]="myDatePickerOptions" [(ngModel)]="beginDate"></my-date-picker>
+</label>
+<label>End date:
+  <my-date-picker name="myEndDate" [options]="myDatePickerOptions" [(ngModel)]="endDate"></my-date-picker>
+</label>
+<button (click)="getArticles()">Search</button>
+
+
+<div *ngIf="articles">
+  <ul *ngFor="let article of articles">
+    <li>{{article.snippet}}</li>
+    <li>{{getFormattedDate(article.pub_date)}}</li>
+    <li>{{article.byline.original}}</li>
+  </ul>
+</div>
+<div *ngIf="!articles">
+  <p>No articles</p>
+</div>
