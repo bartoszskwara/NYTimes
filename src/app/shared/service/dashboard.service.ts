@@ -22,17 +22,17 @@ export class DashboardService {
 
   public getArticles(begin: string, end: string): Promise<Article[]> {
 
-// + '&begin_date=' + beginDate + '&end_date=' + endDate
-
-
     var beginDate = this.convertToValidDateString(begin);
     var endDate = this.convertToValidDateString(end);
 
-    if(beginDate != null && endDate != null && !this.checkIfTimeIntervalIsValid(begin, end)) {
-      return null; //TODO throw exce
+    try {
+      if(beginDate != null && endDate != null && !this.checkIfTimeIntervalIsValid(begin, end)) {
+        throw new Error('Time interval is invalid');
+      }
     }
-
-
+    catch(error) {
+      return Promise.reject(error.message || error);
+    }
 
     let params: URLSearchParams = new URLSearchParams();
     params.set('api-key', this.apiKey);
@@ -49,10 +49,15 @@ export class DashboardService {
       search: params
     })
       .toPromise()
-      .then(response => response.json())
       .then(response => {
-        console.log(response);
-        console.log(response.response);
+        if(response.status != 200) {
+          throw new Error('The request has failed');
+        }
+        else {
+          return response.json()
+        }
+      })
+      .then(response => {
         return response.response.docs as Article[];
       })
       .catch(this.handleError)
@@ -62,7 +67,7 @@ export class DashboardService {
   }
 
   private handleError(error: any): Promise<any> {
-    console.error('An error occurred', error); // for demo purposes only
+    //console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);
   }
 

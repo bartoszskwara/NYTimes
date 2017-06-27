@@ -31,7 +31,7 @@ export class DashboardComponent implements OnInit {
 
   private beginCalendarVisible: boolean = false;
   private endCalendarVisible: boolean = false;
-
+  private errorMessage: string = null;
 
   ngOnInit() {
     this.getArticles();
@@ -39,14 +39,26 @@ export class DashboardComponent implements OnInit {
 
 
   public getArticles(): void {
+    this.errorMessage = null;
     this.dashboardService.getArticles(this.beginDateValue, this.endDateValue)
       .then(response => {
         if(response != null) {
           this.articles = response;
         }
 
+      },
+      error => {
+        this.articles = null;
+        if(error.status && error.status == 404) {
+          this.errorMessage = 'The request has failed';
+        }
+        else {
+          this.errorMessage = error;
+        }
+
       });
   }
+
 
 
   public getFormattedDate(dateString: string): string {

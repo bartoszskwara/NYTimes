@@ -21,25 +21,30 @@ h1 {
     padding: 20px;
     font-family: Tahoma;
 
+
+
+    .date-field {
+      display: block;
+    }
+
+    .datepicker-box {
+      display: none;
+      position: relative;
+      z-index: 999;
+    }
+
+    .calendar-visible  {
+      display: block;
+      position: absolute;
+    }
+
   }
 }
 
 
 
-.date-field {
-  display: block;
-}
 
-.datepicker-box {
-  display: none;
-  position: relative;
-  z-index: 999;
-}
 
-.calendar-visible  {
-  display: block;
-  position: absolute;
-}
 
 ul.article {
   margin: 20px;
@@ -47,6 +52,7 @@ ul.article {
   list-style-type: none;
   background: white;
   border-radius: 5px;
+  border: 1px solid #dadada;
 
   p {
     font-family: Tahoma;
