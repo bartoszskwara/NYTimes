@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import {DashboardService} from '../shared/service/dashboard.service'
 import {Article} from '../shared/models/article'
 
-import {IMyDpOptions} from 'mydatepicker';
 import * as moment from 'moment'
 
 @Component({
