@@ -1,22 +1,81 @@
-<h1>Dashboard</h1>
+<h1>The NY Times Simple App</h1>
 
 
-<label>Begin date:
-  <my-date-picker name="myBeginDate" [options]="myDatePickerOptions" [(ngModel)]="beginDate"></my-date-picker>
-</label>
-<label>End date:
-  <my-date-picker name="myEndDate" [options]="myDatePickerOptions" [(ngModel)]="endDate"></my-date-picker>
-</label>
-<button (click)="getArticles()">Search</button>
+
+<div class="row">
+  <div class="col-md-4 col-sm-3 col-xs-1"></div>
+  <div class="col-md-4 col-sm-6 col-xs-10 accordion-filters top-buffer">
+
+    <accordion>
+      <accordion-group heading="Filtering options">
+
+        <div class="filter-box">
+          <div class="form-horizontal">
+            <div class="date-field form-group row">
+              <div class="col-md-4 col-sm-4 col-xs-4">
+                <label for="beginDateField" class="control-label">Begin date:</label>
+              </div>
+              <div class="col-md-8 col-sm-8 col-xs-8">
+                <input id="beginDateField" class="form-control" type="text" (click)="toggleBeginCalendar()" [(ngModel)]="beginDateValue">
+
+                <span class="datepicker-box" [class.calendar-visible]="beginCalendarVisible" >
+                  <datepicker [(ngModel)]="beginDate" [showWeeks]="true" (ngModelChange)="beginDateChanged()" [maxDate]="getMaxBeginDate()"></datepicker>
+                </span>
+              </div>
+
+
+            </div>
+
+            <div class="date-field form-group row">
+              <div class="col-md-4 col-sm-4 col-xs-4">
+                <label for="endDateField" class="control-label">End date:</label>
+              </div>
+              <div class="col-md-8 col-sm-8 col-xs-8">
+                <input id="endDateField" class="form-control" type="text" class="form-control" (click)="toggleEndCalendar()" [(ngModel)]="endDateValue">
+
+                <span class="datepicker-box" [class.calendar-visible]="endCalendarVisible">
+                  <datepicker [(ngModel)]="endDate" [showWeeks]="true" (ngModelChange)="endDateChanged()" [minDate]="getMinEndDate()"></datepicker>
+                </span>
+              </div>
+
+
+            </div>
+          <button class="btn btn-primary" (click)="getArticles()">Search</button>
+
+        </div>
+        </div>
+
+
+      </accordion-group>
+    </accordion>
+
+  </div>
+  <div class="col-md-4 col-sm-3 col-xs-1"></div>
+</div>
 
 
 <div *ngIf="articles">
-  <ul *ngFor="let article of articles">
-    <li>{{article.snippet}}</li>
-    <li>{{getFormattedDate(article.pub_date)}}</li>
-    <li>{{article.byline.original}}</li>
-  </ul>
+
+  <div class="row" *ngFor="let article of articles">
+    <div class="col-md-3 col-sm-2 col-xs-1"></div>
+    <div class="col-md-6 col-sm-8 col-xs-10">
+      <ul class="article">
+        <li><p>{{getFormattedDate(article.pub_date)}}</p></li>
+        <li><p>{{article.byline.original}}</p></li>
+        <li><h3>{{article.snippet}}</h3></li>
+      </ul>
+    </div>
+    <div class="col-md-3 col-sm-2 col-xs-1"></div>
+  </div>
 </div>
-<div *ngIf="!articles">
-  <p>No articles</p>
+
+<div class="row">
+  <div class="col-md-4 col-sm-3 col-xs-1"></div>
+  <div class="col-md-4 col-sm-6 col-xs-10">
+
+    <div *ngIf="!articles || articles.length == 0" class="alert alert-warning top-buffer">
+      <strong>No articles</strong>
+    </div>
+  </div>
+  <div class="col-md-4 col-sm-3 col-xs-1"></div>
 </div>

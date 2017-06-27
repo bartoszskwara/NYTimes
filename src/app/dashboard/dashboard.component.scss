@@ -1,0 +1,54 @@
+h1 {
+  text-align: center;
+
+  background: black;
+  color: white;
+  margin: 0;
+  padding: 20px;
+}
+
+.top-buffer {
+  margin-top: 20px;
+}
+
+.accordion-filters {
+
+
+  .filter-box {
+    text-align: center;
+    background: white;
+    border-radius: 5px;
+    padding: 20px;
+    font-family: Tahoma;
+
+  }
+}
+
+
+
+.date-field {
+  display: block;
+}
+
+.datepicker-box {
+  display: none;
+  position: relative;
+  z-index: 999;
+}
+
+.calendar-visible  {
+  display: block;
+  position: absolute;
+}
+
+ul.article {
+  margin: 20px;
+  padding: 40px;
+  list-style-type: none;
+  background: white;
+  border-radius: 5px;
+
+  p {
+    font-family: Tahoma;
+  }
+}

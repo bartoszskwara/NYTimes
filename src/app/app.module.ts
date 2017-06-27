@@ -9,7 +9,8 @@ import {AppRoutingModule} from './app.routing'
 import { HttpModule } from '@angular/http';
 import { FormsModule }   from '@angular/forms';
 
-import { MyDatePickerModule } from 'mydatepicker';
+import { DatepickerModule } from 'ngx-bootstrap';
+import { AccordionModule } from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { MyDatePickerModule } from 'mydatepicker';
     AppRoutingModule,
     HttpModule,
     FormsModule,
-    MyDatePickerModule
+    DatepickerModule.forRoot(),
+    AccordionModule.forRoot()
   ],
   providers: [DashboardService],
   bootstrap: [AppComponent]

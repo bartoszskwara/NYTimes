@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import {DashboardService} from '../shared/service/dashboard.service'
 import {Article} from '../shared/models/article'
 
@@ -8,18 +8,29 @@ import * as moment from 'moment'
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private dashboardService: DashboardService) { }
+  constructor(private dashboardService: DashboardService) {
+    this.beginDate = null;
+    this.endDate = null;
+    this.beginDateValue = '';
+    this.endDateValue = '';
+
+  }
 
   private articles: Article[];
 
+  @Input() private beginDate: Date;
+  @Input() private endDate: Date;
 
-  private beginDate: Object = {formatted: null};
-  private endDate: Object = {formatted: null};
+  @Input() private beginDateValue: string;
+  @Input() private endDateValue: string;
 
+
+  private beginCalendarVisible: boolean = false;
+  private endCalendarVisible: boolean = false;
 
 
   ngOnInit() {
@@ -28,28 +39,63 @@ export class DashboardComponent implements OnInit {
 
 
   public getArticles(): void {
+    this.dashboardService.getArticles(this.beginDateValue, this.endDateValue)
+      .then(response => {
+        if(response != null) {
+          this.articles = response;
+        }
 
-    this.dashboardService.getArticles(this.beginDate['formatted'], this.endDate['formatted'])
-      .then(response => this.articles = response);
+      });
   }
 
 
   public getFormattedDate(dateString: string): string {
-
-
     return moment.utc(dateString).format('YYYY-MM-DD, HH:mm');
+  }
+
+  private beginDateChanged(): void {
+    this.beginDateValue = moment(this.beginDate).format("YYYY-MM-DD");
+    this.hideBeginCalendar();
+  }
+  private endDateChanged(): void {
+    this.endDateValue = moment(this.endDate).format("YYYY-MM-DD");
+    this.hideEndCalendar();
+  }
 
 
+  private hideBeginCalendar(): void {
+    this.beginCalendarVisible = false;
+  }
+  private hideEndCalendar(): void {
+    this.endCalendarVisible = false;
+  }
+  private toggleBeginCalendar(): void {
+    this.beginCalendarVisible = !this.beginCalendarVisible;
+    this.hideEndCalendar();
+  }
+  private toggleEndCalendar(): void {
+    this.endCalendarVisible = !this.endCalendarVisible;
+    this.hideBeginCalendar();
   }
 
 
 
-  private myDatePickerOptions: IMyDpOptions = {
-        dateFormat: 'yyyy-mm-dd',
-  };
 
-
-
-
+  private getMinEndDate(): Date {
+    if(this.beginDateValue != '' && moment(this.beginDateValue).isValid()) {
+      return this.beginDate;
+    }
+    else {
+      return moment(0).toDate();
+    }
+  }
+  private getMaxBeginDate(): Date {
+    if(this.endDateValue != '' && moment(this.endDateValue).isValid()) {
+      return this.endDate;
+    }
+    else {
+      return moment().toDate();
+    }
+  }
 
 }
