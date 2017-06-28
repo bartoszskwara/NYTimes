@@ -11,13 +11,7 @@ import * as moment from 'moment'
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private dashboardService: DashboardService) {
-    this.beginDate = null;
-    this.endDate = null;
-    this.beginDateValue = '';
-    this.endDateValue = '';
 
-  }
 
   private articles: Article[];
 
@@ -34,6 +28,15 @@ export class DashboardComponent implements OnInit {
   private endInvalidInput: boolean = false;
   private errorMessage: string = null;
 
+  constructor(private dashboardService: DashboardService) {
+    this.beginDate = null;
+    this.endDate = null;
+    this.beginDateValue = '';
+    this.endDateValue = '';
+
+  }
+
+
   ngOnInit() {
     this.getArticles();
   }
@@ -41,24 +44,30 @@ export class DashboardComponent implements OnInit {
 
   public getArticles(): void {
     this.errorMessage = null;
-    this.dashboardService.getArticles(this.beginDateValue, this.endDateValue)
-      .subscribe(
-        response => {
-          if(response != null) {
-            this.articles = response.response.docs;
-          }
-        },
-        error => {
-          this.articles = null;
-          if(error.status && error.status == 404) {
-            this.errorMessage = 'The request has failed';
-          }
-          else {
-            this.errorMessage = error;
-          }
+    if(moment(this.beginDateValue).isValid() || moment(this.endDateValue).isValid() || (this.beginDateValue == '' && this.endDateValue == '')) {
+      this.dashboardService.getArticles(this.beginDateValue, this.endDateValue)
+        .subscribe(
+          response => {
+            if(response != null) {
+              this.articles = response.response.docs;
+            }
+          },
+          error => {
+            this.articles = null;
+            if(error.status && error.status == 404) {
+              this.errorMessage = 'The request has failed';
+            }
+            else {
+              this.errorMessage = error;
+            }
 
-        }
-      );
+          }
+        );
+    }
+    else {
+      this.errorMessage = 'Invalid date format';
+    }
+
 
   }
 

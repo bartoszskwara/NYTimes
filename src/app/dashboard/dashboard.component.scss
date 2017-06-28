@@ -1,11 +1,6 @@
-h1 {
-  text-align: center;
 
-  background: black;
-  color: white;
-  margin: 0;
-  padding: 20px;
-}
+
+
 
 .top-buffer {
   margin-top: 20px;
@@ -59,4 +54,58 @@ ul.article {
   p {
     font-family: Tahoma;
   }
+}
+
+
+
+@media all and (min-width: 450px) {
+  h1 {
+    text-align: center;
+    background: black;
+    color: white;
+    margin: 0;
+    padding: 20px;
+  }
+
+}
+@media all and (max-width: 450px) {
+  h1 {
+    text-align: center;
+    background: black;
+    color: white;
+    margin: 0;
+    padding: 10px;
+    font-size: 25px;
+  }
+
+  ul.article {
+
+    margin: 10px;
+    padding: 10px;
+
+    p {
+      font-size: 12px;
+      margin: 0;
+      padding: 0;
+    }
+
+    h3 {
+      font-size: 14px;
+
+    }
+  }
+
+  .accordion-filters {
+    .filter-box {
+      padding: 5px;
+
+      label {
+        font-size: 10px;
+      }
+      input {
+        padding: 0;
+      }
+    }
+  }
+
 }
