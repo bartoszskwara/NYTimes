@@ -30,6 +30,8 @@ export class DashboardComponent implements OnInit {
 
   private beginCalendarVisible: boolean = false;
   private endCalendarVisible: boolean = false;
+  private beginInvalidInput: boolean = false;
+  private endInvalidInput: boolean = false;
   private errorMessage: string = null;
 
   ngOnInit() {
@@ -40,22 +42,24 @@ export class DashboardComponent implements OnInit {
   public getArticles(): void {
     this.errorMessage = null;
     this.dashboardService.getArticles(this.beginDateValue, this.endDateValue)
-      .then(response => {
-        if(response != null) {
-          this.articles = response;
-        }
+      .subscribe(
+        response => {
+          if(response != null) {
+            this.articles = response.response.docs;
+          }
+        },
+        error => {
+          this.articles = null;
+          if(error.status && error.status == 404) {
+            this.errorMessage = 'The request has failed';
+          }
+          else {
+            this.errorMessage = error;
+          }
 
-      },
-      error => {
-        this.articles = null;
-        if(error.status && error.status == 404) {
-          this.errorMessage = 'The request has failed';
         }
-        else {
-          this.errorMessage = error;
-        }
+      );
 
-      });
   }
 
 
@@ -66,13 +70,32 @@ export class DashboardComponent implements OnInit {
 
   private beginDateChanged(): void {
     this.beginDateValue = moment(this.beginDate).format("YYYY-MM-DD");
+    this.beginInputChanged();
     this.hideBeginCalendar();
   }
   private endDateChanged(): void {
     this.endDateValue = moment(this.endDate).format("YYYY-MM-DD");
+    this.endInputChanged();
     this.hideEndCalendar();
   }
 
+
+  private beginInputChanged(): void {
+    if(!moment(this.beginDateValue).isValid()) {
+      this.beginInvalidInput = true;
+    }
+    else {
+      this.beginInvalidInput = false;
+    }
+  }
+  private endInputChanged(): void {
+    if(!moment(this.endDateValue).isValid()) {
+      this.endInvalidInput = true;
+    }
+    else {
+      this.endInvalidInput = false;
+    }
+  }
 
   private hideBeginCalendar(): void {
     this.beginCalendarVisible = false;

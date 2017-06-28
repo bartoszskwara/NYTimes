@@ -16,7 +16,7 @@
                 <label for="beginDateField" class="control-label">Begin date:</label>
               </div>
               <div class="col-md-8 col-sm-8 col-xs-8">
-                <input id="beginDateField" class="form-control" type="text" (click)="toggleBeginCalendar()" [(ngModel)]="beginDateValue">
+                <input id="beginDateField" class="form-control" type="text" (click)="toggleBeginCalendar()" [class.invalid-input]="beginInvalidInput" (ngModelChange)="beginInputChanged()" [(ngModel)]="beginDateValue">
 
                 <span class="datepicker-box" [class.calendar-visible]="beginCalendarVisible" >
                   <datepicker [(ngModel)]="beginDate" [showWeeks]="true" (ngModelChange)="beginDateChanged()" [maxDate]="getMaxBeginDate()"></datepicker>
@@ -31,7 +31,7 @@
                 <label for="endDateField" class="control-label">End date:</label>
               </div>
               <div class="col-md-8 col-sm-8 col-xs-8">
-                <input id="endDateField" class="form-control" type="text" class="form-control" (click)="toggleEndCalendar()" [(ngModel)]="endDateValue">
+                <input id="endDateField" class="form-control" type="text" class="form-control" (click)="toggleEndCalendar()" [class.invalid-input]="endInvalidInput" (ngModelChange)="endInputChanged()" [(ngModel)]="endDateValue">
 
                 <span class="datepicker-box" [class.calendar-visible]="endCalendarVisible">
                   <datepicker [(ngModel)]="endDate" [showWeeks]="true" (ngModelChange)="endDateChanged()" [minDate]="getMinEndDate()"></datepicker>
