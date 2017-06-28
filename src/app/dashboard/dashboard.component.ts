@@ -15,8 +15,8 @@ export class DashboardComponent implements OnInit {
 
   private articles: Article[];
 
-  @Input() private beginDate: Date;
-  @Input() private endDate: Date;
+  private beginDate: Date;
+  private endDate: Date;
 
   @Input() private beginDateValue: string;
   @Input() private endDateValue: string;
