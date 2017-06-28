@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DashboardService } from './shared/service/dashboard.service';
+import { PaginationService } from './shared/service/pagination.service';
 
 import {AppRoutingModule} from './app.routing'
 import { HttpModule } from '@angular/http';
@@ -25,7 +26,7 @@ import { AccordionModule } from 'ngx-bootstrap';
     DatepickerModule.forRoot(),
     AccordionModule.forRoot()
   ],
-  providers: [DashboardService],
+  providers: [DashboardService, PaginationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

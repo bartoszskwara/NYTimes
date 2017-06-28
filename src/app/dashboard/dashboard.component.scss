@@ -41,6 +41,9 @@
   color: red;
 }
 
+.pagination-box ul li{
+  cursor: pointer;
+}
 
 
 ul.article {
@@ -103,7 +106,7 @@ ul.article {
         font-size: 10px;
       }
       input {
-        padding: 0;
+        padding: 5px;
       }
     }
   }

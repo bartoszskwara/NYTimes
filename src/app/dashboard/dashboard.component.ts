@@ -1,8 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import {DashboardService} from '../shared/service/dashboard.service'
 import {Article} from '../shared/models/article'
-
+import {PaginationService} from '../shared/service/pagination.service'
 import * as moment from 'moment'
+import { PagesData } from '../shared/models/PagesData'
 
 @Component({
   selector: 'app-dashboard',
@@ -28,12 +29,14 @@ export class DashboardComponent implements OnInit {
   private endInvalidInput: boolean = false;
   private errorMessage: string = null;
 
-  constructor(private dashboardService: DashboardService) {
+  private pagesData: PagesData;
+
+  constructor(private dashboardService: DashboardService, private paginationService: PaginationService) {
     this.beginDate = null;
     this.endDate = null;
     this.beginDateValue = '';
     this.endDateValue = '';
-
+    this.pagesData = this.paginationService.getPagesData();
   }
 
 
@@ -43,6 +46,7 @@ export class DashboardComponent implements OnInit {
 
 
   public getArticles(): void {
+
     this.errorMessage = null;
     if(moment(this.beginDateValue).isValid() || moment(this.endDateValue).isValid() || (this.beginDateValue == '' && this.endDateValue == '')) {
       this.dashboardService.getArticles(this.beginDateValue, this.endDateValue)
@@ -50,10 +54,20 @@ export class DashboardComponent implements OnInit {
           response => {
             if(response != null) {
               this.articles = response.response.docs;
+
+              this.paginationService.resetPagination();
+              this.paginationService.setPagination(this.articles.length);
+              this.pagesData = this.paginationService.getPagesData();
+
+
             }
           },
           error => {
             this.articles = null;
+            this.paginationService.resetPagination();
+            this.paginationService.setPagination(0);
+            this.pagesData = this.paginationService.getPagesData();
+
             if(error.status && error.status == 404) {
               this.errorMessage = 'The request has failed';
             }
@@ -65,6 +79,9 @@ export class DashboardComponent implements OnInit {
         );
     }
     else {
+      this.paginationService.resetPagination();
+      this.paginationService.setPagination(0);
+      this.pagesData = this.paginationService.getPagesData();
       this.errorMessage = 'Invalid date format';
     }
 
@@ -140,5 +157,24 @@ export class DashboardComponent implements OnInit {
       return moment().toDate();
     }
   }
+
+
+
+private changePage(pageNumber: number) {
+  if(pageNumber >= 1 && pageNumber <= this.pagesData.totalPageNumber) {
+    this.paginationService.changePage(pageNumber);
+    this.pagesData = this.paginationService.getPagesData();
+  }
+
+
+}
+
+
+
+
+
+
+
+
 
 }
