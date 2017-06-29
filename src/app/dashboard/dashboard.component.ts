@@ -14,22 +14,24 @@ export class DashboardComponent implements OnInit {
 
 
 
-  private articles: Article[];
+  public articles: Article[];
 
-  private beginDate: Date;
-  private endDate: Date;
+  public beginDate: Date;
+  public endDate: Date;
 
-  @Input() private beginDateValue: string;
-  @Input() private endDateValue: string;
+  @Input() public beginDateValue: string;
+  @Input() public endDateValue: string;
 
 
-  private beginCalendarVisible: boolean = false;
-  private endCalendarVisible: boolean = false;
-  private beginInvalidInput: boolean = false;
-  private endInvalidInput: boolean = false;
-  private errorMessage: string = null;
+  public beginCalendarVisible: boolean = false;
+  public endCalendarVisible: boolean = false;
+  public beginInvalidInput: boolean = false;
+  public endInvalidInput: boolean = false;
+  public errorMessage: string = null;
 
-  private pagesData: PagesData;
+  public pagesData: PagesData;
+
+  public loading: boolean = true;
 
   constructor(private dashboardService: DashboardService, private paginationService: PaginationService) {
     this.beginDate = null;
@@ -52,6 +54,7 @@ export class DashboardComponent implements OnInit {
       this.dashboardService.getArticles(this.beginDateValue, this.endDateValue)
         .subscribe(
           response => {
+            this.loading = true;
             if(response != null) {
               this.articles = response.response.docs;
 
@@ -75,6 +78,11 @@ export class DashboardComponent implements OnInit {
               this.errorMessage = error;
             }
 
+          },
+          () => {
+            this.loading = false;
+            console.log('finish');
+            console.log(this.articles);
           }
         );
     }
@@ -94,19 +102,19 @@ export class DashboardComponent implements OnInit {
     return moment.utc(dateString).format('YYYY-MM-DD, HH:mm');
   }
 
-  private beginDateChanged(): void {
+  public beginDateChanged(): void {
     this.beginDateValue = moment(this.beginDate).format("YYYY-MM-DD");
     this.beginInputChanged();
     this.hideBeginCalendar();
   }
-  private endDateChanged(): void {
+  public endDateChanged(): void {
     this.endDateValue = moment(this.endDate).format("YYYY-MM-DD");
     this.endInputChanged();
     this.hideEndCalendar();
   }
 
 
-  private beginInputChanged(): void {
+  public beginInputChanged(): void {
     if(!moment(this.beginDateValue).isValid()) {
       this.beginInvalidInput = true;
     }
@@ -114,7 +122,7 @@ export class DashboardComponent implements OnInit {
       this.beginInvalidInput = false;
     }
   }
-  private endInputChanged(): void {
+  public endInputChanged(): void {
     if(!moment(this.endDateValue).isValid()) {
       this.endInvalidInput = true;
     }
@@ -129,11 +137,11 @@ export class DashboardComponent implements OnInit {
   private hideEndCalendar(): void {
     this.endCalendarVisible = false;
   }
-  private toggleBeginCalendar(): void {
+  public toggleBeginCalendar(): void {
     this.beginCalendarVisible = !this.beginCalendarVisible;
     this.hideEndCalendar();
   }
-  private toggleEndCalendar(): void {
+  public toggleEndCalendar(): void {
     this.endCalendarVisible = !this.endCalendarVisible;
     this.hideBeginCalendar();
   }
@@ -141,7 +149,7 @@ export class DashboardComponent implements OnInit {
 
 
 
-  private getMinEndDate(): Date {
+  public getMinEndDate(): Date {
     if(this.beginDateValue != '' && moment(this.beginDateValue).isValid()) {
       return this.beginDate;
     }
@@ -149,7 +157,7 @@ export class DashboardComponent implements OnInit {
       return moment(0).toDate();
     }
   }
-  private getMaxBeginDate(): Date {
+  public getMaxBeginDate(): Date {
     if(this.endDateValue != '' && moment(this.endDateValue).isValid()) {
       return this.endDate;
     }
@@ -160,7 +168,7 @@ export class DashboardComponent implements OnInit {
 
 
 
-private changePage(pageNumber: number) {
+public changePage(pageNumber: number) {
   if(pageNumber >= 1 && pageNumber <= this.pagesData.totalPageNumber) {
     this.paginationService.changePage(pageNumber);
     this.pagesData = this.paginationService.getPagesData();
