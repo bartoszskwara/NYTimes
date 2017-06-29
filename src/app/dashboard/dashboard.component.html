@@ -7,79 +7,55 @@
 
 
 
+<div class="container-fluid">
 
-
-<div class="row">
-  <div class="col-md-4 col-sm-3 col-xs-1"></div>
-  <div class="col-md-4 col-sm-6 col-xs-10 accordion-filters top-buffer">
-
-    <accordion>
-      <accordion-group heading="Filtering options">
-
-        <div class="filter-box">
-          <div class="form-horizontal">
-            <div class="date-field form-group row">
-              <div class="col-md-5 col-sm-5 col-xs-5">
-                <label for="beginDateField" class="control-label">Begin date:</label>
-              </div>
-              <div class="col-md-7 col-sm-7 col-xs-7">
-                <input id="beginDateField" class="form-control" type="text" (click)="toggleBeginCalendar()" [class.invalid-input]="beginInvalidInput" (ngModelChange)="beginInputChanged()" [(ngModel)]="beginDateValue">
-
-                <span class="datepicker-box" [class.calendar-visible]="beginCalendarVisible" >
-                  <datepicker [(ngModel)]="beginDate" [showWeeks]="true" (ngModelChange)="beginDateChanged()" [maxDate]="getMaxBeginDate()"></datepicker>
-                </span>
-              </div>
-
-
-            </div>
-
-            <div class="date-field form-group row">
-              <div class="col-md-5 col-sm-5 col-xs-5">
-                <label for="endDateField" class="control-label">End date:</label>
-              </div>
-              <div class="col-md-7 col-sm-7 col-xs-7">
-                <input id="endDateField" class="form-control" type="text" class="form-control" (click)="toggleEndCalendar()" [class.invalid-input]="endInvalidInput" (ngModelChange)="endInputChanged()" [(ngModel)]="endDateValue">
-
-                <span class="datepicker-box" [class.calendar-visible]="endCalendarVisible">
-                  <datepicker [(ngModel)]="endDate" [showWeeks]="true" (ngModelChange)="endDateChanged()" [minDate]="getMinEndDate()"></datepicker>
-                </span>
-              </div>
-
-
-            </div>
-          <button class="btn btn-primary" (click)="getArticles()">Search</button>
-
-        </div>
-        </div>
-
-
-      </accordion-group>
-    </accordion>
-
-  </div>
-  <div class="col-md-4 col-sm-3 col-xs-1"></div>
-</div>
-
-
-
-
-
-<div *ngIf="articles && errorMessage == null">
-
-  <div class="row pagination-box">
+  <div class="row">
     <div class="col-md-4 col-sm-3 col-xs-1"></div>
-    <div class="col-md-4 col-sm-6 col-xs-10 text-center">
-      <ul class="pagination">
-        <li (click)="changePage(pagesData.currentPageNumber - 1)">
-          <a>&laquo;</a>
-        </li>
-        <li *ngFor="let num of pagesData.arrayOfPages" (click)="changePage(num)" [class.active]="num == pagesData.currentPageNumber">
-          <a>{{num}}</a>
-        </li>
-        <li (click)="changePage(pagesData.currentPageNumber + 1)">
-          <a>&raquo;</a>
-        </li>
-      </ul>
+    <div class="col-md-4 col-sm-6 col-xs-10 accordion-filters top-buffer">
+
+      <accordion>
+        <accordion-group heading="Filtering options">
+
+          <div class="filter-box">
+            <div class="form-horizontal">
+              <div class="date-field form-group row">
+                <div class="col-md-5 col-sm-5 col-xs-5">
+                  <label for="beginDateField" class="control-label">Begin date:</label>
+                </div>
+                <div class="col-md-7 col-sm-7 col-xs-7">
+                  <input id="beginDateField" class="form-control" type="text" (click)="toggleBeginCalendar()" [class.invalid-input]="beginInvalidInput" (ngModelChange)="beginInputChanged()" [(ngModel)]="beginDateValue">
+
+                  <span class="datepicker-box" [class.calendar-visible]="beginCalendarVisible" >
+                    <datepicker [(ngModel)]="beginDate" [showWeeks]="true" (ngModelChange)="beginDateChanged()" [maxDate]="getMaxBeginDate()"></datepicker>
+                  </span>
+                </div>
+
+
+              </div>
+
+              <div class="date-field form-group row">
+                <div class="col-md-5 col-sm-5 col-xs-5">
+                  <label for="endDateField" class="control-label">End date:</label>
+                </div>
+                <div class="col-md-7 col-sm-7 col-xs-7">
+                  <input id="endDateField" class="form-control" type="text" class="form-control" (click)="toggleEndCalendar()" [class.invalid-input]="endInvalidInput" (ngModelChange)="endInputChanged()" [(ngModel)]="endDateValue">
+
+                  <span class="datepicker-box" [class.calendar-visible]="endCalendarVisible">
+                    <datepicker [(ngModel)]="endDate" [showWeeks]="true" (ngModelChange)="endDateChanged()" [minDate]="getMinEndDate()"></datepicker>
+                  </span>
+                </div>
+
+
+              </div>
+            <button class="btn btn-primary" (click)="getArticles()">Search</button>
+
+          </div>
+          </div>
+
+
+        </accordion-group>
+      </accordion>
+
     </div>
     <div class="col-md-4 col-sm-3 col-xs-1"></div>
   </div>
@@ -87,53 +63,78 @@
 
 
 
-  <div class="row" *ngFor="let index of pagesData.indexes">
-    <div class="col-md-3 col-sm-2 col-xs-1"></div>
-    <div class="col-md-6 col-sm-8 col-xs-10">
-      <ul class="article">
-        <li><p>{{getFormattedDate(articles[index].pub_date)}}</p></li>
-        <li><p>{{articles[index].byline.original}}</p></li>
-        <li><h3>{{articles[index].snippet}}</h3></li>
-      </ul>
+
+  <div *ngIf="articles && errorMessage == null">
+
+    <div class="row pagination-box">
+      <div class="col-md-4 col-sm-3 col-xs-1"></div>
+      <div class="col-md-4 col-sm-6 col-xs-10 text-center">
+        <ul class="pagination">
+          <li (click)="changePage(pagesData.currentPageNumber - 1)">
+            <a>&laquo;</a>
+          </li>
+          <li *ngFor="let num of pagesData.arrayOfPages" (click)="changePage(num)" [class.active]="num == pagesData.currentPageNumber">
+            <a>{{num}}</a>
+          </li>
+          <li (click)="changePage(pagesData.currentPageNumber + 1)">
+            <a>&raquo;</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-4 col-sm-3 col-xs-1"></div>
     </div>
-    <div class="col-md-3 col-sm-2 col-xs-1"></div>
+
+
+
+
+    <div class="row" *ngFor="let index of pagesData.indexes">
+      <div class="col-md-3 col-sm-2 col-xs-1"></div>
+      <div class="col-md-6 col-sm-8 col-xs-10">
+        <ul class="article">
+          <li><p>{{getFormattedDate(articles[index].pub_date)}}</p></li>
+          <li><p>{{articles[index].byline.original}}</p></li>
+          <li><h3>{{articles[index].snippet}}</h3></li>
+        </ul>
+      </div>
+      <div class="col-md-3 col-sm-2 col-xs-1"></div>
+    </div>
+
+
+
+
+    <div class="row pagination-box">
+      <div class="col-md-4 col-sm-3 col-xs-1"></div>
+      <div class="col-md-4 col-sm-6 col-xs-10 text-center">
+        <ul class="pagination">
+          <li (click)="changePage(pagesData.currentPageNumber - 1)">
+            <a>&laquo;</a>
+          </li>
+          <li *ngFor="let num of pagesData.arrayOfPages" (click)="changePage(num)" [class.active]="num == pagesData.currentPageNumber">
+            <a>{{num}}</a>
+          </li>
+          <li (click)="changePage(pagesData.currentPageNumber + 1)">
+            <a>&raquo;</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-4 col-sm-3 col-xs-1"></div>
+    </div>
+
+
   </div>
 
-
-
-
-  <div class="row pagination-box">
+  <div class="row">
     <div class="col-md-4 col-sm-3 col-xs-1"></div>
-    <div class="col-md-4 col-sm-6 col-xs-10 text-center">
-      <ul class="pagination">
-        <li (click)="changePage(pagesData.currentPageNumber - 1)">
-          <a>&laquo;</a>
-        </li>
-        <li *ngFor="let num of pagesData.arrayOfPages" (click)="changePage(num)" [class.active]="num == pagesData.currentPageNumber">
-          <a>{{num}}</a>
-        </li>
-        <li (click)="changePage(pagesData.currentPageNumber + 1)">
-          <a>&raquo;</a>
-        </li>
-      </ul>
+    <div class="col-md-4 col-sm-6 col-xs-10 info-box">
+      <div *ngIf="loading" class="articles-loader">
+      </div>
+      <div *ngIf="!loading && (!articles || articles.length == 0) && errorMessage == null" class="alert alert-warning top-buffer">
+        <strong>No articles</strong>
+      </div>
+      <div *ngIf="errorMessage != null" class="alert alert-danger top-buffer">
+        <strong>{{errorMessage}}</strong>
+      </div>
     </div>
     <div class="col-md-4 col-sm-3 col-xs-1"></div>
   </div>
-
-
-</div>
-
-<div class="row">
-  <div class="col-md-4 col-sm-3 col-xs-1"></div>
-  <div class="col-md-4 col-sm-6 col-xs-10 info-box">
-    <div *ngIf="loading" class="articles-loader">
-    </div>
-    <div *ngIf="!loading && (!articles || articles.length == 0) && errorMessage == null" class="alert alert-warning top-buffer">
-      <strong>No articles</strong>
-    </div>
-    <div *ngIf="errorMessage != null" class="alert alert-danger top-buffer">
-      <strong>{{errorMessage}}</strong>
-    </div>
-  </div>
-  <div class="col-md-4 col-sm-3 col-xs-1"></div>
 </div>
